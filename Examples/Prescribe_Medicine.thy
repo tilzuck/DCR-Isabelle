@@ -1,5 +1,5 @@
 theory Prescribe_Medicine
-  imports DCR_Graph
+  imports Semantics
 begin
 
 section \<open>The prescribe-medicine example\<close>
@@ -61,5 +61,23 @@ text \<open>There are no include or exclude arrows.\<close>
 
 lemma "\<not> e \<rightarrow>+\<^bsub>prescribe_medicine\<^esub> e' \<and> \<not> e \<rightarrow>%\<^bsub>prescribe_medicine\<^esub> e'"
   by (simp add: prescribe_medicine_def)
+
+subsection \<open>Transitions\<close>
+
+text \<open>In the initial marking, only \<open>Prescribe\<close> is enabled: \<open>Sign\<close> and \<open>Give\<close> wait for
+  their conditions.\<close>
+
+lemma "{e. enabled prescribe_medicine (marking prescribe_medicine) e} = {Prescribe}"
+proof (rule set_eqI)
+  fix e
+  show "e \<in> {e. enabled prescribe_medicine (marking prescribe_medicine) e} \<longleftrightarrow> e \<in> {Prescribe}"
+    by (cases e) (auto simp: enabled_def prescribe_medicine_def)
+qed
+
+text \<open>Executing \<open>Prescribe\<close> makes \<open>Sign\<close> and \<open>Give\<close> pending.\<close>
+
+lemma "prescribe_medicine \<turnstile> marking prescribe_medicine \<rightarrow>\<^bsub>(Prescribe, ''prescribe medicine'')\<^esub>
+    \<lparr>Ex = {Prescribe}, Re = {Sign, Give}, In = UNIV\<rparr>"
+  by (auto simp: prescribe_medicine_def)
 
 end

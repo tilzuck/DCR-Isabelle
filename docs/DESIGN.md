@@ -192,14 +192,20 @@ Paper keys such as `[EPTCS69]` refer to [references.md](references.md).
 
 - **Decision.** The transition relation `M' →(e,a) M''` of `T(G)` is *defined*
   as in [EPTCS69] Def. 4: the conjunction of items (ii)–(vi), as
-  `step G M' (e, a) M''`. Transitions are labelled with pairs `(e, a)`. Two
-  derived notions follow the paper's own wording:
+  `step G M' (e, a) M''`, written `G ⊢ M' →⇘(e, a)⇙ M''` (D14). Transitions
+  are labelled with pairs `(e, a)`. `step` is a `fun` with the single equation
+  `G ⊢ M' →⇘(e, a)⇙ M'' ⟷ …`, so the pair pattern appears on the left as in the
+  paper. Two derived notions follow the paper's own wording:
   - `enabled G M e`: items (iii)–(iv), "`e` is included and all its included
     conditions have been executed";
   - `execute G M e`: the marking `M''` given by items (ii), (v) and (vi).
 
   A lemma `step_iff` states that `step G M' (e, a) M''` holds iff `e` is
   enabled, `a = label G e` and `M'' = execute G M' e`.
+- **Include and exclude at once.** Item (v) computes `(In ∪ e→+) \ e→%`, so an
+  event both included and excluded by `e` ends up excluded. [AFP23] and later
+  papers compute `(In \ e→%) ∪ e→+`. The two agree under
+  `inclusion_exclusion_disjoint`; the theory text says so.
 - **Why.** This follows principle 1: the definition is the paper's. Most proofs
   use the derived form, because the marking after a step is determined by
   the event.
@@ -304,7 +310,11 @@ document/   LaTeX of the session document (D17)
   | `e →+⇘G⇙ e'` | `e` includes `e'` | `(e, e') ∈ inclusion G` |
   | `e →%⇘G⇙ e'` | `e` excludes `e'` | `(e, e') ∈ exclusion G` |
 
-  `⇘G⇙` means that `G` is written as a subscript.
+  `⇘G⇙` means that `G` is written as a subscript. The transition relation of
+  Def. 4 is written `G ⊢ M' →⇘(e, a)⇙ M''`: the graph comes first, because
+  `T(G)` depends on it, and the label is a subscript of the arrow as in the
+  paper's `M' →(e,a) M''`. This is mixfix syntax on the `fun` itself, not an
+  abbreviation.
 - **Abbreviations, so Isabelle also prints them.** The arrows are
   `abbreviation`s with mixfix syntax. Isabelle folds abbreviations back when
   printing, so goals and output show `e →•⇘G⇙ e'` rather than

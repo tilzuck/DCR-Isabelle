@@ -15,7 +15,9 @@ text \<open>
   \<^item> (vi) \<open>\<plusminus> : E \<times> E \<rightharpoonup> {+, %}\<close> defines the dynamic inclusion and exclusion
     relations \<open>\<rightarrow>+\<close> and \<open>\<rightarrow>%\<close>,
   \<^item> (vii) \<open>l : E \<rightarrow> Act\<close> is the labelling function.
+\<close>
 
+text \<open>
   We adopt the definition of the existing Isabelle formalisation of DCR graphs by Christfort
   and Debois \<^cite>\<open>AFP23\<close>: the marking is a record with the fields \<open>Ex\<close>, \<open>Re\<close> and \<open>In\<close>,
   and each relation is a set of pairs of events, in the same direction. Unlike there, the
@@ -56,7 +58,9 @@ text \<open>
     \<open>e'\<close> must later be executed or excluded.
   \<^item> \<open>e \<rightarrow>+\<^bsub>G\<^esub> e'\<close>: \<open>e\<close> includes \<open>e'\<close>. Executing \<open>e\<close> includes \<open>e'\<close>.
   \<^item> \<open>e \<rightarrow>%\<^bsub>G\<^esub> e'\<close>: \<open>e\<close> excludes \<open>e'\<close>. Executing \<open>e\<close> excludes \<open>e'\<close>.
+\<close>
 
+text \<open>
   They are abbreviations for memberships such as \<open>(e, e') \<in> condition G\<close>, and Isabelle
   prints such memberships with the arrows.
 \<close>

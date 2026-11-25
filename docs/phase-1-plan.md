@@ -12,9 +12,13 @@ reading it are kept in the appendix.
 
 **Status.** Milestone 1a is in progress.
 - Def. 3 is formalised in `Core/Marking.thy` and `Core/DCR_Graph.thy`.
+- The transition relation of Def. 4 is formalised in `Core/Semantics.thy`:
+  `step` (written `G ⊢ M' →⇘(e, a)⇙ M''`), `enabled`, `execute`, `step_iff`,
+  the basic properties and `finite_markings`.
 - The graphs of Fig. 3 are in `Examples/Prescribe_Medicine.thy` and
-  `Examples/Prescribe_Medicine_With_Check.thy`.
-- Next: Def. 4.
+  `Examples/Prescribe_Medicine_With_Check.thy`, with first checks of
+  transitions.
+- Next: runs and acceptance (Def. 4, second half).
 
 The design decisions referred to as D1–D17 are in [DESIGN.md](DESIGN.md).
 
@@ -65,13 +69,14 @@ Further names:
 
 | Paper | Isabelle (planned) |
 |---|---|
-| `M' →(e,a) M''` | `step G M' (e, a) M''`, defined item by item as in Def. 4 (D9) |
+| `M' →(e,a) M''` | `G ⊢ M' →⇘(e, a)⇙ M''` (constant `step`), defined item by item as in Def. 4 (D9) (done) |
 | run, accepting run | as in Def. 4: the labels `(eᵢ, aᵢ)` of a sequence of transitions (D10); names to be fixed in the Def. 4 step |
 
 ## 3. Sketch of the semantics (Def. 4)
 
-Def. 3 is real code now (see §2). The sketch below covers the next step, Def. 4.
-It is **not checked by Isabelle** yet and may change. Following principle 1 in
+**Done:** the transition relation below is now real code in `Core/Semantics.thy`,
+with notation `G ⊢ M' →⇘(e, a)⇙ M''` and `{e' ∈ In M'. e' →•⇘G⇙ e}` for item (iv).
+The sketch is kept as a record of the plan. Following principle 1 in
 DESIGN.md, the transition relation is *defined* by the paper's items (i)–(vi).
 The handier forms `enabled` and `execute` are derived from it, and a lemma
 connects them.
@@ -106,8 +111,7 @@ lemma step_iff:
   "step G M' (e, a) M'' ⟷ enabled G M' e ∧ a = label G e ∧ M'' = execute G M' e"
 ```
 
-A paper-style notation for `step` (e.g. `G ⊢ M' →⇘(e,a)⇙ M''`) can be added
-in the same step, as for the relations (D14).
+The paper-style notation `G ⊢ M' →⇘(e, a)⇙ M''` was added (D14).
 
 Runs (D10), as in Def. 4:
 - A finite run is a list of labels `(eᵢ, aᵢ)` together with markings
@@ -127,11 +131,11 @@ Runs (D10), as in Def. 4:
 |---|---|---|
 | Def. 3: marking, `M(G) = P(E)³` | record `'event marking` (done) | `Core/Marking.thy` |
 | Def. 3: DCR graph | record `('event, 'action) dcr_graph`, item by item as in §2 (done) | `Core/DCR_Graph.thy` |
-| Def. 4: transition system `T(G)`, items (i)–(vi) | `step`, defined item by item (D9) | `Core/Semantics.thy` |
-| Def. 4: items (iii)–(iv), "`e` is enabled" | `enabled` (derived) | same |
-| Def. 4: items (ii), (v), (vi), the new marking | `execute` (derived); `step_iff` connects both to `step` | same |
-| basic properties, used throughout | transitions are deterministic; executed events stay executed; an event stops being pending only by being executed | same |
-| "finite state if the graph is finite" | finitely many markings when the type `'event` is finite | same |
+| Def. 4: transition system `T(G)`, items (i)–(vi) | `step`, defined item by item (D9) (done) | `Core/Semantics.thy` |
+| Def. 4: items (iii)–(iv), "`e` is enabled" | `enabled` (derived) (done) | same |
+| Def. 4: items (ii), (v), (vi), the new marking | `execute` (derived); `step_iff` connects both to `step` (done) | same |
+| basic properties, used throughout | `step_deterministic`, `step_executed_mono`, `step_pending_resolved` (done) | same |
+| "finite state if the graph is finite" | `finite_markings`: finitely many markings when the type `'event` is finite (done) | same |
 | Def. 4: runs | finite runs (lists) and infinite runs (sequences indexed by `nat`): the labels `(eᵢ, aᵢ)` of a sequence of transitions (D10) | `Core/Run.thy` |
 | Def. 4: accepting runs | acceptance for finite runs (literal; see §5, point 1) and for infinite runs | `Core/Acceptance.thy` |
 | remark after Def. 4: for finite runs, accepting = no included pending response at the end | a lemma | same |

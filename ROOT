@@ -12,6 +12,7 @@ session DCR = HOL +
   theories
     Marking
     DCR_Graph
+    Semantics
     Prescribe_Medicine
     Prescribe_Medicine_With_Check
   document_files

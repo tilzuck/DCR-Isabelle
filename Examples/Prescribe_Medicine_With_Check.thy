@@ -1,5 +1,5 @@
 theory Prescribe_Medicine_With_Check
-  imports DCR_Graph
+  imports Semantics
 begin
 
 section \<open>The prescribe-medicine example with check\<close>
@@ -69,5 +69,17 @@ text \<open>The graph satisfies the restriction implicit in Def. 3 (vi): \<open>
 
 lemma "inclusion_exclusion_disjoint prescribe_medicine_with_check"
   by (auto simp: inclusion_exclusion_disjoint_def prescribe_medicine_with_check_def)
+
+subsection \<open>Transitions\<close>
+
+text \<open>After \<open>Prescribe\<close> and \<open>Sign\<close>, \<open>Give\<close> is pending. If the nurse now executes
+  \<open>DontTrust\<close>, \<open>Give\<close> is excluded and \<open>Sign\<close> becomes pending again: the doctor has to
+  sign anew, and \<open>Give\<close>, being excluded, no longer has to happen.\<close>
+
+lemma "prescribe_medicine_with_check \<turnstile>
+      \<lparr>Ex = {Prescribe, Sign}, Re = {Give}, In = UNIV\<rparr>
+    \<rightarrow>\<^bsub>(DontTrust, ''don't trust'')\<^esub>
+      \<lparr>Ex = {Prescribe, Sign, DontTrust}, Re = {Sign, Give}, In = - {Give}\<rparr>"
+  by (auto simp: prescribe_medicine_with_check_def)
 
 end
