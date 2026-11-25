@@ -1,0 +1,47 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{isabelle,isabellesym}
+\usepackage{amssymb}
+
+% DCR graphs and the inline relation symbols, in the arrows of the literature
+% (https://github.com/tilzuck/DCR-Latex). For the look of the DCR portal, drop
+% the option [classic].
+\usepackage[classic]{dcrgraph}
+
+% The relation arrows of the theories (e \<rightarrow>\<bullet>\<^bsub>G\<^esub> e' etc.),
+% typeset as dcrgraph's inline symbols. isa_dcr_arrows.lua maps Isabelle's
+% output of each arrow to one of these macros.
+\newcommand{\isadcrcondition}{\isamath{\dcrcondition}}
+\newcommand{\isadcrresponse}{\isamath{\dcrresponse}}
+\newcommand{\isadcrinclude}{\isamath{\dcrinclude}}
+\newcommand{\isadcrexclude}{\isamath{\dcrexclude}}
+
+% this should be the last package used
+\usepackage{pdfsetup}
+
+% urls in roman style, theory text in math-similar italics
+\urlstyle{rm}
+\isabellestyle{it}
+
+\begin{document}
+
+\title{DCR Graphs in Isabelle/HOL}
+\maketitle
+
+\begin{abstract}
+  A formalisation of Dynamic Condition Response (DCR) graphs, following the literature
+  from the original paper~\cite{EPTCS69} onwards.
+\end{abstract}
+
+\tableofcontents
+
+% from here on, the arrows in the theory text become dcrgraph symbols
+\directlua{dofile("isa_dcr_arrows.lua")}
+
+% include generated text of all theories
+\input{session}
+
+\bibliographystyle{alpha}
+\bibliography{root}
+
+\end{document}
