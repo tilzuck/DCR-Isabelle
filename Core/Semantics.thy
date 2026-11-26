@@ -70,7 +70,8 @@ text \<open>
 
 lemma step_iff:
   "G \<turnstile> M' \<rightarrow>\<^bsub>(e, a)\<^esub> M'' \<longleftrightarrow> enabled G M' e \<and> a = label G e \<and> M'' = execute G M' e"
-  by (cases M'') (auto simp: enabled_def execute_def)
+  by (auto simp: enabled_def execute_def)
+
 
 subsection \<open>Basic properties\<close>
 
@@ -107,12 +108,12 @@ proof -
   let ?triple = "\<lambda>(x, y, z). \<lparr>Ex = x, Re = y, In = z\<rparr>"
   have "M \<in> range ?triple" for M :: "'event marking"
     by (rule image_eqI[of M _ "(Ex M, Re M, In M)"]) (auto intro: marking.equality)
-  then have "(UNIV :: 'event marking set) = range ?triple"
+  then have u:"(UNIV :: 'event marking set) = range ?triple"
     by blast
-  moreover have "finite (UNIV :: ('event set \<times> 'event set \<times> 'event set) set)"
+  moreover have f:"finite (UNIV :: ('event set \<times> 'event set \<times> 'event set) set)"
     using assms by (simp add: finite_Prod_UNIV Finite_Set.finite_set)
   ultimately show ?thesis
-    by (metis finite_imageI)
+    by (simp add: u f)
 qed
 
 end
