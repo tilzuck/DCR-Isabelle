@@ -140,7 +140,7 @@ Runs (D10), as in Def. 4:
 | Def. 4: items (ii), (v), (vi), the new marking | `execute` (derived); `step_iff` connects both to `step` (done) | same |
 | basic properties, used throughout | `step_deterministic`, `step_executed_mono`, `step_pending_resolved` (done) | same |
 | "finite state if the graph is finite" | `finite_markings`: finitely many markings when the type `'event` is finite (done) | same |
-| Def. 4: runs | `transitions`, `finite_run` (lists), `infinite_run` (sequences indexed by `nat`); `transitions_Cons` for checking concrete runs; `finite_run_unique`, `infinite_run_unique` (done) | `Core/Run.thy` |
+| Def. 4: runs | `transitions`, `finite_run` (lists), `infinite_run` (sequences indexed by `nat`); `transitions_length_markings`; `transitions_Cons` for checking concrete runs; `finite_run_unique`, `infinite_run_unique` (done) | `Core/Run.thy` |
 | Def. 4: accepting runs | acceptance for finite runs (literal; see §5, point 1) and for infinite runs | `Core/Acceptance.thy` |
 | remark after Def. 4: for finite runs, accepting = no included pending response at the end | a lemma | same |
 | Def. 5: distributed DCR graph `(G, Roles, P, as)` | a record with the underlying graph as a field, `graph :: ('event, 'action) dcr_graph`, plus roles, principals and the role assignment, split into a principal–role and an action–role relation (§5, point 2). Alternatively a record extension of `dcr_graph`; decided when Def. 5 is formalised (see §8) | `Core/Distributed.thy` |
