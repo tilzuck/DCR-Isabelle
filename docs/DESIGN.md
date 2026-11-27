@@ -221,6 +221,14 @@ Paper keys such as `[EPTCS69]` refer to [references.md](references.md).
   graph's marking. Finite runs are lists; infinite runs are sequences indexed
   by `nat` (functions `nat ⇒ …`). Acceptance refers to the markings `Mᵢ` of
   these transitions, exactly as in Def. 4.
+- **In Isabelle.** The markings are kept next to the labels:
+  `finite_run G ls Ms` with `length Ms = length ls + 1`, and
+  `infinite_run G ls Ms` with `ls :: nat ⇒ …`, `Ms :: nat ⇒ …`. Both are
+  defined with indices, as in the paper (`Ms ! i` is `Mᵢ`). The finite case
+  goes through `transitions G ls Ms`, "a sequence of transitions", which does
+  not fix the first marking. A list-recursive form (`transitions_Cons`) is a
+  derived simp rule, used to check concrete runs. `finite_run_unique` and
+  `infinite_run_unique` state that the markings are determined by the labels.
 - **Derived forms (lemmas).**
   - Because each step is determined by its event, a run is determined by its
     events `eᵢ`. Most proofs and computations use this shorter form.

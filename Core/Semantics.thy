@@ -110,9 +110,9 @@ proof -
     by (rule image_eqI[of M _ "(Ex M, Re M, In M)"]) (auto intro: marking.equality)
   then have u:"(UNIV :: 'event marking set) = range ?triple"
     by blast
-  moreover have f:"finite (UNIV :: ('event set \<times> 'event set \<times> 'event set) set)"
+  then have f:"finite (UNIV :: ('event set \<times> 'event set \<times> 'event set) set)"
     using assms by (simp add: finite_Prod_UNIV Finite_Set.finite_set)
-  ultimately show ?thesis
+  show ?thesis
     by (simp add: u f)
 qed
 

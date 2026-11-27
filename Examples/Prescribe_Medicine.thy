@@ -1,5 +1,5 @@
 theory Prescribe_Medicine
-  imports Semantics
+  imports Run
 begin
 
 section \<open>The prescribe-medicine example\<close>
@@ -79,5 +79,27 @@ text \<open>Executing \<open>Prescribe\<close> makes \<open>Sign\<close> and \<o
 lemma "prescribe_medicine \<turnstile> marking prescribe_medicine \<rightarrow>\<^bsub>(Prescribe, ''prescribe medicine'')\<^esub>
     \<lparr>Ex = {Prescribe}, Re = {Sign, Give}, In = UNIV\<rparr>"
   by (auto simp: prescribe_medicine_def)
+
+subsection \<open>Runs\<close>
+
+text \<open>The doctor prescribes and signs, then the nurse gives the medicine. Afterwards
+  nothing is pending.\<close>
+
+lemma "finite_run prescribe_medicine
+    [(Prescribe, ''prescribe medicine''), (Sign, ''sign''), (Give, ''give medicine'')]
+    [\<lparr>Ex = {}, Re = {}, In = UNIV\<rparr>,
+     \<lparr>Ex = {Prescribe}, Re = {Sign, Give}, In = UNIV\<rparr>,
+     \<lparr>Ex = {Prescribe, Sign}, Re = {Give}, In = UNIV\<rparr>,
+     \<lparr>Ex = {Prescribe, Sign, Give}, Re = {}, In = UNIV\<rparr>]"
+  by (auto simp: finite_run_def prescribe_medicine_def)
+
+text \<open>\<open>Prescribe\<close> has no conditions, so the doctor can prescribe forever. In this infinite
+  run, \<open>Sign\<close> and \<open>Give\<close> stay pending from the first step on.\<close>
+
+lemma "infinite_run prescribe_medicine
+    (\<lambda>i. (Prescribe, ''prescribe medicine''))
+    (\<lambda>i. if i = 0 then \<lparr>Ex = {}, Re = {}, In = UNIV\<rparr>
+         else \<lparr>Ex = {Prescribe}, Re = {Sign, Give}, In = UNIV\<rparr>)"
+  by (auto simp: infinite_run_def prescribe_medicine_def)
 
 end

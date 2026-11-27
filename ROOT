@@ -13,6 +13,7 @@ session DCR = HOL +
     Marking
     DCR_Graph
     Semantics
+    Run
     Prescribe_Medicine
     Prescribe_Medicine_With_Check
   document_files

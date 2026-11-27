@@ -18,7 +18,11 @@ reading it are kept in the appendix.
 - The graphs of Fig. 3 are in `Examples/Prescribe_Medicine.thy` and
   `Examples/Prescribe_Medicine_With_Check.thy`, with first checks of
   transitions.
-- Next: runs and acceptance (Def. 4, second half).
+- Runs (Def. 4) are formalised in `Core/Run.thy`: `transitions`, `finite_run`,
+  `infinite_run`, with markings kept next to the labels, and the lemmas that
+  the markings of a run are unique. Fig. 3(a) has a finite and an infinite
+  example run.
+- Next: acceptance (Def. 4, last part).
 
 The design decisions referred to as D1–D17 are in [DESIGN.md](DESIGN.md).
 
@@ -70,7 +74,7 @@ Further names:
 | Paper | Isabelle (planned) |
 |---|---|
 | `M' →(e,a) M''` | `G ⊢ M' →⇘(e, a)⇙ M''` (constant `step`), defined item by item as in Def. 4 (D9) (done) |
-| run, accepting run | as in Def. 4: the labels `(eᵢ, aᵢ)` of a sequence of transitions (D10); names to be fixed in the Def. 4 step |
+| run, accepting run | `finite_run G ls Ms`, `infinite_run G ls Ms`: the labels `ls` of a sequence of transitions through the markings `Ms` (D10) (done); acceptance to come |
 
 ## 3. Sketch of the semantics (Def. 4)
 
@@ -136,7 +140,7 @@ Runs (D10), as in Def. 4:
 | Def. 4: items (ii), (v), (vi), the new marking | `execute` (derived); `step_iff` connects both to `step` (done) | same |
 | basic properties, used throughout | `step_deterministic`, `step_executed_mono`, `step_pending_resolved` (done) | same |
 | "finite state if the graph is finite" | `finite_markings`: finitely many markings when the type `'event` is finite (done) | same |
-| Def. 4: runs | finite runs (lists) and infinite runs (sequences indexed by `nat`): the labels `(eᵢ, aᵢ)` of a sequence of transitions (D10) | `Core/Run.thy` |
+| Def. 4: runs | `transitions`, `finite_run` (lists), `infinite_run` (sequences indexed by `nat`); `transitions_Cons` for checking concrete runs; `finite_run_unique`, `infinite_run_unique` (done) | `Core/Run.thy` |
 | Def. 4: accepting runs | acceptance for finite runs (literal; see §5, point 1) and for infinite runs | `Core/Acceptance.thy` |
 | remark after Def. 4: for finite runs, accepting = no included pending response at the end | a lemma | same |
 | Def. 5: distributed DCR graph `(G, Roles, P, as)` | a record with the underlying graph as a field, `graph :: ('event, 'action) dcr_graph`, plus roles, principals and the role assignment, split into a principal–role and an action–role relation (§5, point 2). Alternatively a record extension of `dcr_graph`; decided when Def. 5 is formalised (see §8) | `Core/Distributed.thy` |
